@@ -1,0 +1,85 @@
+<div class="componente__contenedor" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo">Diario citas</div>
+    
+    <div class="contenedor-filtros">
+      <div class="filtro filtro--texto">
+        <mat-form-field>
+          <mat-label>Filtro de texto</mat-label>
+          <input matInput [formControl]="filtroCadena" (keyup)="filtrarListado()">
+        </mat-form-field>
+      </div>
+      <div class="filtros--especiales">
+        <div class="filtro filtro--prueba">
+          <mat-form-field>
+            <mat-label>Prueba</mat-label>
+            <mat-select [formControl]="filtroPrueba" (selectionChange)="filtrarListado()">
+              <mat-option [value]="''">Todas</mat-option>
+              <mat-option *ngFor="let prueba of servicioAplicacion.listadoPruebas" [value]="prueba.id">{{prueba.nombre}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filtro filtro--centro">
+          <mat-form-field>
+            <mat-label>Centro</mat-label>
+            <mat-select [formControl]="filtroCentro" (selectionChange)="filtrarListado()">
+              <mat-option [value]="''">Todos</mat-option>
+              <mat-option *ngFor="let centro of servicioAplicacion.listadoCentros" [value]="centro.id">{{centro.nombre}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabla">
+        <mat-table [dataSource]="listadoParaMostrar" class="mat-elevation-z8" matSort (matSortChange)="cambioOrden($event)">
+            <ng-container *ngIf="anchuraVentana > 800" matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> {{anchuraVentana > 1150 ? 'Identificador' : 'Id'}}</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="estado">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+              <mat-cell *matCellDef="let element" 
+              [ngClass]="{'estado--completada': element.estado === 1, 'estado--pendiente': element.estado === 0, 'estado--cancelada': element.estado === -3}"
+              > {{element.cadenaEstado}} </mat-cell>
+            </ng-container>
+            
+            <ng-container *ngIf="anchuraVentana > 490" matColumnDef="fecha">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.fecha}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="hora">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Hora </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.hora}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="centro">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Centro </mat-header-cell>
+              <mat-cell *matCellDef="let element"><div #texto class="texto-reducible" matTooltip="{{element.centro}}" matTooltipPosition="above" [matTooltipDisabled]="estaTextoReducido(texto)">{{element.centro}}</div> </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="prueba">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{anchuraVentana > 700 ? 'Prueba Complementaria' : 'Prueba'}}</mat-header-cell>
+                <mat-cell *matCellDef="let element"><div #texto class="texto-reducible" matTooltip="{{element.prueba}}" matTooltipPosition="above" [matTooltipDisabled]="estaTextoReducido(texto)">{{element.prueba}}</div> </mat-cell>
+            </ng-container>
+            
+            <tr class="mat-row" *matNoDataRow>
+              <th class="mat-cell" [attr.colspan]="columnasTabla.length">
+                No se han encontrado resultados
+              </th>
+            </tr>
+
+            <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnasTabla;" (click)="gestionarCita(row)"></mat-row>
+        </mat-table>
+        <mat-paginator
+            [length]="totalRegistros"
+            [pageSize]="resultadosPorPagina"
+            [pageSizeOptions] = "opcionesCitasPorPagina"
+            [showFirstLastButtons] = true
+            (page)="cargarCitas($event.pageIndex, $event.pageSize)"
+        ></mat-paginator>
+    </div>
+</div>

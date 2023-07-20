@@ -1,0 +1,29 @@
+<div *ngIf="estaCargando" class="loading-spinner">
+<!-- <div *ngIf="true" class="cargando__contenedor"> -->
+  <div class="cargando__fondo"></div>
+  <div class="cargando__cuerpo">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+    <h1>Cargando ...</h1>
+  </div>
+</div>
+
+<menu-desplegable *ngIf="mostrarBarras" [mostrarMenuDesplegable]="menuDesplegableActivado" (cambiarIconosCabecera)="cambiarIconos()"></menu-desplegable>
+
+<button *ngIf="mostrarBarras" mat-icon-button class="icono-menu" (click)="clickMenu()">
+  <mat-icon>menu</mat-icon>
+</button>
+
+<div *ngIf="mostrarBarras" class="logo" (click)="clickLogo()">
+    <div class="icono-pandemic"></div>
+    <div class="texto-logo">Pandemic</div>
+    <div class="simbolo-registrado">®</div>
+</div>
+
+<barra-superior [mostrarCabecera]="mostrarBarras"></barra-superior>
+<div class="contenido">
+  <router-outlet></router-outlet>
+  <barra-inferior [mostrarPieDePagina]="mostrarBarras"></barra-inferior>
+</div>
+
+
+

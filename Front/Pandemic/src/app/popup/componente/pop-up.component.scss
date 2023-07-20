@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+.popUp {
+
+    &__contenedor {
+        width: 500px;
+        height: 80px;
+        display: flex;
+    }
+
+    &__megafono {
+        width: 82px;
+        height: 62px;
+        margin-top: 25px;
+        margin-left: -67px;
+        position: absolute;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url('../../../static/pop-up/megafono.png');
+    }
+
+    &__bocadillo {
+        width: 85px;
+        height: 62px;
+        margin-top: -25px;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        mat-icon {
+            color: white;
+            transform: scale(1.7);
+        }
+
+        &.correcto {
+            background-image: url('../../../static/pop-up/bocadilloCorrecto.png');
+        }
+
+        &.aviso {
+            background-image: url('../../../static/pop-up/bocadilloAviso.png');
+        }
+
+        &.error {
+            background-image: url('../../../static/pop-up/bocadilloError.png');
+        }
+    }
+
+    &__cuerpo {
+        margin-left: 20%;
+        position: absolute;
+        display: flex;
+    }
+
+    &__titulo {
+        font-size: 30px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    &__mensaje {
+        margin-top: 2%;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+    }
+}

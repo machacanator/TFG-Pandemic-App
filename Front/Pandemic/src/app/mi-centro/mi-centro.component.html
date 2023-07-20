@@ -1,0 +1,45 @@
+<div class="componente__contenedor" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo">Mi centro</div>
+
+    <app-carousel  *ngIf="listadoImagenesCentro?.length > 0" class="carousel" [listadoImagenes]="listadoImagenesCentro"></app-carousel>
+
+    <mat-accordion class="conjunto-desplegables">
+        <mat-expansion-panel class="desplegable">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Presentación
+                </mat-panel-title>
+                <mat-panel-description>
+                    Carta de presentación del centro
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>{{infoCentro?.cartaPresentacion}}</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="desplegable">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Historia
+                </mat-panel-title>
+                <mat-panel-description>
+                    Orígenes del centro
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>{{infoCentro?.historia}}</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="desplegable">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Misión
+                </mat-panel-title>
+                <mat-panel-description>
+                    El objetivo de nuestro esfuerzo
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>{{infoCentro?.mision}}</p>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+</div>

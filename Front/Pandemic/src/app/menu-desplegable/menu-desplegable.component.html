@@ -1,0 +1,20 @@
+<div id='menuDesplegable' [ngClass]="{'menu-desplegable': true, 'menu-desplegable--modo-compuesto': tieneRoles}">
+    <div *ngIf="tieneRoles" [ngClass]="{'menu-desplegable__secciones': true, 'menu-desplegable__secciones--modo-compuesto': tieneRoles}" class="menu-desplegable__secciones">
+        <div *ngFor="let seccion of getOpcionesMenuAccesoLibre()" id="{{seccion.id}}" class="seccion" (click)="seleccionarSeccion(seccion, $event)">
+            <div class="seccion__titulo">
+                {{seccion.titulo}}
+                <div class="seccion__separador"></div>
+            </div>
+            <div *ngFor="let subseccion of seccion.subsecciones" class="subseccion" (click)="seleccionarSeccion(subseccion, $event)">{{subseccion.titulo}}</div>
+        </div>
+    </div>
+    <div class="menu-desplegable__secciones">
+        <div *ngFor="let seccion of tieneRoles ? getOpcionesMenuAccesoRestringido() : getOpcionesMenuAccesoLibre()" id="{{seccion.id + getOpcionesMenuAccesoLibre().length}}" class="seccion" (click)="seleccionarSeccion(seccion, $event)">
+            <div class="seccion__titulo">
+                {{seccion.titulo}}
+                <div class="seccion__separador"></div>
+            </div>
+            <div *ngFor="let subseccion of seccion.subsecciones" class="subseccion" (click)="seleccionarSeccion(subseccion, $event)">{{subseccion.titulo}}</div>
+        </div>
+    </div>
+</div>

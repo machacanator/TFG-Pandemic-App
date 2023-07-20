@@ -1,0 +1,73 @@
+<div class="componente__contenedor">
+
+    <div class="titulo__contenedor titulo__contenedor--con-boton-volver">
+        <div class="boton" (click)="volverAAdministrarPruebasDeCentro()">
+            <mat-icon>arrow_back_ios</mat-icon>
+            Volver
+        </div>
+        <div class="titulo">{{modoEditarHorariosPrueba ? 'Editar horarios' : 'Añadir nueva prueba'}}</div>
+    </div>
+
+    <div class="selector-prueba__contenedor">
+        <div class="selector-prueba">
+            <mat-form-field [formGroup]="formulario">
+                <mat-label>Prueba Complementaria</mat-label>
+                <mat-select formControlName="idPrueba">
+                    <mat-option *ngFor="let prueba of listaPruebasAgregables" [value]="prueba.id">{{prueba.nombre}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formulario.get('idPrueba').invalid">Seleccione una opción válida</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="horarios-prueba__contenedor">
+        <div class="horarios-prueba__titulo"> Lista de horarios de la prueba</div>
+        <div class="horarios-prueba__listado">
+            <div 
+            #HTMLhorario
+            [ngClass]="{'horario__contenedor': true, 'horario__contenedor--expandido': formulario.get('horarios')['controls'].length > 1 && !deshabilitarBotones}"
+            [formGroup]="horario"
+            *ngFor="let horario of formulario.get('horarios')['controls']; let indiceHorario = index">
+                <div class="horario__campo horaInicio">
+                    <igx-time-picker #selectorTiempo1 formControlName="horaInicio">
+                        <label igxLabel>Hora inicio</label>
+                        <ng-template igxTimePickerActions>
+                            <div class="container action-buttons">
+                                <button igxButton="flat" (click)="selectorTiempo1.cancelButtonClick()">Cancelar</button>
+                                <button igxButton="flat" (click)="selectorTiempo1.okButtonClick()">Aceptar</button>
+                            </div>
+                        </ng-template>
+                    </igx-time-picker>
+                    <mat-error *ngIf="horario.get('horaInicio').errors?.required">Este campo es obligatorio</mat-error>
+                    <mat-error *ngIf="!horario.get('horaInicio').errors?.required && !horario.get('horaFin').errors?.required && horario.errors?.forbiddenTime">La hora de inicio debe ser inferior a la final</mat-error>
+                    <mat-error *ngIf="formulario.get('horarios')['controls'].length > 1 && this.formulario.get('horarios').errors?.forbiddenTime?.value === indiceHorario">La hora de inicio debe ser igual o superior a las: {{getFechaFormatoHoraAMPM(formulario.get('horarios').value[formulario.get('horarios').errors.forbiddenTime.value - 1].horaFin)}}</mat-error>
+                </div>
+                <i class="gg-arrow-long-right-l"></i>
+                <div class="horario__campo horaFin">
+                    <igx-time-picker #selectorTiempo2 formControlName="horaFin">
+                        <label igxLabel>Hora fin</label>
+                        <ng-template igxTimePickerActions>
+                            <div class="container action-buttons">
+                                <button igxButton="flat" (click)="selectorTiempo2.cancelButtonClick()">Cancelar</button>
+                                <button igxButton="flat" (click)="selectorTiempo2.okButtonClick()">Aceptar</button>
+                            </div>
+                        </ng-template>
+                    </igx-time-picker>
+                    <mat-error *ngIf="horario.get('horaFin').errors?.required">Este campo es obligatorio</mat-error>
+                    <mat-error *ngIf="!horario.get('horaFin').errors?.required && !horario.get('horaInicio').errors?.required && horario.errors?.forbiddenTime">La hora de inicio debe ser inferior a la final</mat-error>
+                    <!-- <mat-form-field [formGroup]="horario">
+                        <mat-label>Hora fin (24h)</mat-label>
+                        <input matInput [formControl]="horario.get('horaFin')">
+                    </mat-form-field> -->
+                </div>
+                <button *ngIf="formulario.get('horarios')['controls'].length > 1 && !deshabilitarBotones" mat-button class="horario__boton-eliminar" (click)="eliminarHorario(indiceHorario, HTMLhorario)"><mat-icon>cancel</mat-icon></button>
+            </div>
+            <button mat-raised-button class="horarios-prueba__boton-annadir-horario" [disabled]="deshabilitarBotones" (click)="annadirNuevoHorarioACentro()"><mat-icon>add</mat-icon></button>
+        </div>
+    </div>
+
+    <div class="botones">
+        <button mat-raised-button [ngClass]="{'boton-guardar':true, 'boton-guardar--desplazado': formulario.get('horarios')['controls'].length > 1, 'boton-guardar--deshabilitado': deshabilitarBotones}" [disabled]="deshabilitarBotones" (click)="modoEditarHorariosPrueba ? actualizarHorariosPrueba() : annadirPruebaACentro()">Guardar</button>
+        <button mat-raised-button *ngIf="formulario.get('horarios')['controls'].length > 1" [ngClass]="{'boton-borrar-todos':true, 'boton-borrar-todos--deshabilitado': deshabilitarBotones}" [disabled]="deshabilitarBotones" (click)="borrarTodosLosHorarios()">Borrar Todos</button>
+    </div>
+</div>

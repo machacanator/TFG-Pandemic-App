@@ -1,0 +1,318 @@
+
+@import '../../constantes/globales.scss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+mat-toolbar .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 64px;
+}
+
+barra-superior .mat-toolbar-row, barra-superior .mat-toolbar-single-row {
+    display: flex;
+    color: $color-blanco;
+    justify-content: space-between;
+    background-color: $color-paleta-1;
+    position: relative;
+
+    .texto-menu {
+        margin-left: 50px;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .usuario {
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: 'Poppins', sans-serif;
+
+        &__nombre {
+            margin-right: 10px;
+        }
+
+        &__notificaciones {
+            width: fit-content;
+            height: 100%;
+            margin-right: 20px;
+            display: flex;
+            position: relative;
+
+            .punto {
+                width: 8px;
+                height: 8px;
+                position: absolute;
+                top: 0;
+                right: -4px;
+                border-radius: 4px;
+                background-color: $color-paleta-4;
+            }
+
+            .campana {
+                cursor: pointer;
+                width: 28px;
+                height: 28px;
+                position: relative;
+                
+                &--agitar {
+                    .campana__icono-campana {            
+                        animation: mover-campana 3s ease-in-out;
+                        z-index: 1;
+                    }
+                    
+                    .campana__vibracion {
+                        animation: animacion-sonido 3s ease-in-out;
+                        z-index: 0;
+                    }
+                }
+                
+                mat-icon {
+                    width: 28px;
+                    height: 28px;            
+                    top: 0;
+                    left: 0;
+                    position: absolute;
+                    font-size: 28px;
+                    background-color: transparent;
+                }
+
+                &__vibracion {
+                    color: $color-paleta-4;
+                    opacity: 0;
+                }
+            }
+        }
+
+        &__icono {
+            display: flex;
+            justify-content: center;
+
+            mat-icon {
+                width: 32px;
+                height: 90%;
+                font-size: 32px;
+                line-height: normal;
+            }    
+        }
+    }   
+}
+
+.aviso-nuevas-notificaciones {
+    top: 50px;
+    right: 45px;
+    width: 300px;
+    height: 70px;
+    padding-block: 5px;
+    border-radius: 15px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    color: $color-paleta-5;
+    background-color: $color-paleta-4;
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+    // display: none;
+    // animation: ocultar-aviso 1s ease-in-out;
+    transition: opacity 1s ease-in-out, top 1s ease-in-out 1s;
+
+    &--mostrar {
+        top: 68px;
+        opacity: 1;
+        z-index: 0;
+        // display: block;
+        // animation: mostrar-aviso 5s ease-in-out;
+        // animation: mostrar-aviso 1s ease-in-out;
+        transition: opacity 1s ease-in-out, top 1s ease-in-out;
+    }
+
+    .flecha {
+        width: 24px;
+        height: 10px;
+        top: -15px;
+        left: calc(50% - 12px);
+        position: absolute;
+
+        &::before, &::after {
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            border-bottom: 15px solid $color-paleta-4;
+            z-index: 1;
+        }
+
+        &::before {
+            left: 0;
+            border-left: 12px solid transparent;
+        }
+
+        &::after {
+            right: 0;
+            border-right: 12px solid transparent;
+        }
+    }
+
+}
+
+.menu-usuario {
+    top: 68px;
+    right: 5px;
+    width: 200px;
+    height: 70px;
+    border-radius: 15px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    color: $color-paleta-5;
+    background-color: $color-paleta-4;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: mostrar-aviso 1s ease-in-out;
+
+    &__nombre-usuario {
+        margin-bottom: 5px;
+    }
+
+    &__opcion {
+        cursor: pointer;
+        width: 90%;
+        height: 50px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        transition: background-color 0.5s ease-in-out;
+
+        mat-icon {
+            margin-right: 5px;
+        }
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .flecha {
+        width: 24px;
+        height: 10px;
+        top: -15px;
+        left: calc(85% - 12px);
+        position: absolute;
+
+        &::before, &::after {
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            border-bottom: 15px solid $color-paleta-4;
+        }
+
+        &::before {
+            left: 0;
+            border-left: 12px solid transparent;
+        }
+
+        &::after {
+            right: 0;
+            border-right: 12px solid transparent;
+        }
+    }
+
+}
+
+@keyframes mover-campana {
+    0% {transform: rotate(0deg);}
+    10% {transform: rotate(50deg);}
+    12% {transform: rotate(-50deg);}
+    17% {transform: rotate(40deg);}
+    22% {transform: rotate(-40deg);}
+    27% {transform: rotate(40deg);}
+    32% {transform: rotate(-40deg);}
+    37% {transform: rotate(30deg);}
+    42% {transform: rotate(-30deg);}
+    45% {transform: rotate(20deg);}
+    48% {transform: rotate(-20deg);}
+    50% {transform: rotate(10deg);}
+    52% {transform: rotate(-10deg);}
+    53% {transform: rotate(5deg);}
+    54% {transform: rotate(-5deg);}
+    55% {transform: rotate(5deg);}
+    56% {transform: rotate(-5deg);}
+}
+
+@keyframes animacion-sonido {
+    0% {transform: rotate(0deg);}
+    10% {transform: rotate(50deg); opacity: 1; top:-1px; left: -4px;}
+    11% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    12% {transform: rotate(-50deg); opacity: 1; top:-1px; left: 4px;}
+    14% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    17% {transform: rotate(40deg); opacity: 1; top:-1px; left: -4px;}
+    19% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    22% {transform: rotate(-40deg); opacity: 1; top:-1px; left: 4px;}
+    23% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    27% {transform: rotate(40deg); opacity: 1; top:-1px; left: -4px;}
+    30% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    32% {transform: rotate(-40deg); opacity: 1; top:-1px; left: 4px;}
+    35% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    37% {transform: rotate(30deg); opacity: 1; top:-1px; left: -4px;}
+    40% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    42% {transform: rotate(-30deg); opacity: 1; top:-1px; left: 4px;}
+    19% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    45% {transform: rotate(20deg); opacity: 1; top:-1px; left: -4px;}
+    47% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    48% {transform: rotate(-20deg); opacity: 1; top:-1px; left: 4px;}
+    49% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    50% {transform: rotate(10deg); opacity: 1; top:-1px; left: -4px;}
+    51% {transform: rotate(0deg); opacity: 0; top:0; left: 0;}
+    52% {transform: rotate(-10deg); opacity: 1;}
+    53% {transform: rotate(5deg); }
+    54% {transform: rotate(-5deg);}
+    55% {transform: rotate(5deg); }
+    56% {transform: rotate(-5deg);}
+    57% {transform: rotate(0deg); }
+}
+
+@keyframes mostrar-aviso {
+    0%{top: 50px; opacity: 0; display: block;}
+    100%{top: 68px; opacity: 1;}
+}
+
+// @keyframes mostrar-aviso {
+//     0%{top: 50px; opacity: 0; display: block;}
+//     10%{top: 68px; opacity: 1; display: block;}
+//     90%{opacity: 1; display: block;}
+//     99%{opacity: 0; display: block;}
+// }
+
+@keyframes ocultar-aviso {
+    0%{top: 68px; opacity: 1; display: block;}
+    100%{top: 68px; opacity: 0;}
+}
+
+@media (max-width: 550px) {
+    .logo {
+        left: calc(50% - 100px);
+
+        & .texto-logo, & .simbolo-registrado {
+            display: none;
+        }
+    }
+
+}
+
+@media (max-width: 750px) {
+    .menu-usuario {
+        height: max-content;
+        padding-block: 15px;
+        
+        &__opcion {
+            height: 40px;
+        }
+    }
+}

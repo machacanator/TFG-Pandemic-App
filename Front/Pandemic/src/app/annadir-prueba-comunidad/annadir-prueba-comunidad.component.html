@@ -1,0 +1,153 @@
+<div class="componente__contenedor" [formGroup]="formulario" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo__contenedor titulo__contenedor--con-boton-volver">
+        <div class="boton" (click)="volverAAdministrarPruebasComunidad()">
+            <mat-icon>arrow_back_ios</mat-icon>
+            Volver
+        </div>
+        <div class="titulo">{{modoEditarPrueba ? 'Editar prueba' : 'Añadir nueva prueba'}}</div>
+    </div>
+
+    <div class="titulo-seccion">Datos de la prueba</div>
+    <div class="datos-prueba">
+        <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile colspan="4">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="nombre">
+                    <mat-error *ngIf="formulario.get('nombre').errors?.required">Este campo es obligatorio</mat-error>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile [colspan]="anchuraVentana < 700 ? '4' : '2'">
+                <mat-form-field>
+                    <mat-label>Duración (minutos)</mat-label>
+                    <input matInput formControlName="duracion">
+                    <mat-error *ngIf="formulario.get('nombre').errors?.required">Este campo es obligatorio</mat-error>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile [colspan]="anchuraVentana < 700 ? '4' : '2'">
+                <mat-form-field>
+                    <mat-label>Separación con la siguiente prueba</mat-label>
+                    <input matInput formControlName="separacionCantidad">
+                    <mat-error *ngIf="formulario.get('separacionCantidad').errors?.required">Este campo es obligatorio</mat-error>
+                    <mat-error *ngIf="formulario.get('separacionCantidad').errors?.pattern">Rellene con un número igual superior a 0</mat-error>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="anchuraVentana < 700 ? '4' : '2'">
+                <mat-form-field>
+                    <mat-label>Tipo de separacion</mat-label>
+                    <mat-select formControlName="separacionTipo">
+                        <mat-option *ngFor="let tipo of listadoTiposDeSeparacion" [value]="tipo.valor">{{tipo.nombre}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formulario.get('separacionTipo').errors?.required">Este campo es obligatorio</mat-error>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        
+    </div>
+
+    <div class="titulo-seccion">Rangos de edad</div>
+    
+    <div class="listado-rangos__contenedor">
+        <div class="listado-rangos__info">Seleccione al menos un rango de edad para el que es {{formulario.get("muyRecomendable") ? 'muy recomendado' : 'aconsejable'}} realizar  la prueba</div>
+        <mat-list class="listado-rangos">
+            <ng-container *ngFor="let rango of listadoDeRangos; let indice = index">
+                <mat-list-item [formGroup]="rango" [ngClass]="{'mat-list-item--tamanno-reducido': anchuraVentana < 615}">
+                    <mat-grid-list cols="2" rowHeight="65px">
+                        <mat-grid-tile [colspan]="anchuraVentana < 615 ? '2' : '1'">
+                            <div class="campo">
+                                <mat-form-field>
+                                    <mat-label>Tipo de rango</mat-label>
+                                    <mat-select formControlName="tipo" (valueChange)="cambioTipoDeRango($event, rango)" (selectionChange)="ordenarRangos()">
+                                        <mat-option *ngFor="let tipo of listadoTiposDeRangos" [value]="tipo.valor">{{tipo.nombre}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="rango.get('tipo').errors?.required">Este campo es obligatorio</mat-error>
+                                    <mat-hint class="mat-error" *ngIf="indice === indiceRangoErroneo || indice  === indiceRangoErroneo - 1">Rango de edad contradictorio</mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="anchuraVentana < 615 ? '2' : '1'">
+                            <div class="campo-radial">
+                                <mat-label>Muy recomendada:</mat-label>
+                                <mat-radio-group formControlName="muyRecomendable">
+                                    <mat-radio-button [value]="true">
+                                        Sí
+                                    </mat-radio-button>
+                                    <mat-radio-button [value]="false">
+                                        No
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="anchuraVentana < 615 ? '2' : '1'" *ngIf="rango.get('tipo').value === tiposDeRangos.MAYOR_QUE || rango.get('tipo').value === tiposDeRangos.MENOR_QUE">
+                            <div class="campo">
+                                <mat-form-field>
+                                    <mat-label>Edad (inclusive)</mat-label>
+                                    <input matInput formControlName="edad" (change)="validarRangosDeEdad()">
+                                    <mat-error *ngIf="rango.get('edad').errors?.required">Este campo es obligatorio</mat-error>
+                                    <mat-error *ngIf="rango.get('edad').errors?.pattern">Inserte un numero positivo</mat-error>
+                                    <mat-hint class="mat-error" *ngIf="indice === indiceRangoErroneo || indice  === indiceRangoErroneo - 1">Rango de edad contradictorio</mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="anchuraVentana < 615 ? '2' : '1'" *ngIf="rango.get('tipo').value === tiposDeRangos.ENTRE">
+                            <div class="campo">
+                                <mat-form-field>
+                                    <mat-label>Edad inicio (inclusive)</mat-label>
+                                    <input matInput formControlName="edadInicio" (change)="validarRangosDeEdad()">
+                                    <mat-error *ngIf="rango.get('edadInicio').errors?.required">Este campo es obligatorio</mat-error>
+                                    <mat-error *ngIf="rango.get('edadInicio').errors?.pattern">Inserte un numero positivo</mat-error>
+                                    <mat-hint class="mat-error" *ngIf="indice === indiceRangoErroneo || indice  === indiceRangoErroneo - 1">Rango de edad contradictorio</mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="anchuraVentana < 615 ? '2' : '1'" *ngIf="rango.get('tipo').value === tiposDeRangos.ENTRE"> 
+                            <div class="campo">
+                                <mat-form-field>
+                                    <mat-label>Edad fin (inclusive)</mat-label>
+                                    <input matInput formControlName="edadFin" (change)="validarRangosDeEdad()">
+                                    <mat-error *ngIf="rango.get('edadFin').errors?.required">Este campo es obligatorio</mat-error>
+                                    <mat-error *ngIf="rango.get('edadFin').errors?.pattern">Inserte un numero positivo</mat-error>
+                                    <mat-hint class="mat-error" *ngIf="indice === indiceRangoErroneo || indice  === indiceRangoErroneo - 1">Rango de edad contradictorio</mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                    
+                    <button *ngIf="listadoDeRangos.length > 1" mat-raised-button class="boton-eliminar" (click)="quitarRangoDeListado(indice)"><mat-icon>close</mat-icon></button>
+                </mat-list-item>
+                <mat-divider *ngIf="indice != (listadoDeRangos.length - 1)"></mat-divider>
+            </ng-container>
+        </mat-list>
+    </div>
+
+    <button mat-raised-button class="boton-nuevo-rango" [disabled]="deshabilitarAccionesConRangos || listadoDeRangos?.[0]?.value?.tipo === tiposDeRangos.TODOS" (click)="annadirNuevoRango()"><mat-icon>add</mat-icon>Nuevo rango</button>
+
+    <div class="titulo-seccion">Descripción</div>
+    <div class="texto-area">
+        <mat-form-field appearance="outline">
+            <textarea matInput formControlName="descripcion" rows="15" placeholder="Escriba aquí ..." cdkAutosizeMinRows="15" cdkTextareaAutosize></textarea>
+        </mat-form-field>
+    </div>
+
+    <div class="titulo-seccion">Avisos</div>
+    <div class="texto-area">
+        <mat-form-field appearance="outline">
+            <textarea matInput formControlName="avisos" rows="15" placeholder="Escriba aquí ..." cdkAutosizeMinRows="15" cdkTextareaAutosize></textarea>
+        </mat-form-field>
+    </div>
+
+    <div class="titulo-seccion">Recomendaciones</div>
+    <div class="texto-area">
+        <mat-form-field appearance="outline">
+            <textarea matInput formControlName="recomendaciones" rows="15" placeholder="Escriba aquí ..." cdkAutosizeMinRows="15" cdkTextareaAutosize></textarea>
+        </mat-form-field>
+    </div>
+
+    <button mat-raised-button class="boton-guardar" (click)="guardarPrueba()">Guardar</button>
+
+</div>

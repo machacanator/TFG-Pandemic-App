@@ -1,0 +1,256 @@
+@import '../../constantes/globales.scss';
+@import url('https://fonts.googleapis.com/css2?family=Galada&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+
+.selector-prueba {
+    width: 250px;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    &__contenedor {
+        width: 80%;
+        min-width: 500px;
+        max-width: 610px;
+        height: 80px;
+        margin-bottom: 50px;
+        border-radius: 40px;
+        background-color: $color-blanco;
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: space-evenly;
+        box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+    }
+
+    &__boton {
+        width: max-content;
+        min-width: 90px;
+        height: 40px;
+        font-size: 17px;
+        font-family: 'Poppins', sans-serif;
+        margin-block: 100px;
+        color: $color-blanco;
+        background-color: $color-paleta-2;
+    }
+}
+
+.horarios-prueba {
+
+    &__contenedor {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    &__titulo {
+        width: max-content;
+        height: max-content;
+        padding-block: 40px;
+        text-align: center;
+        font-size: 20px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    &__listado {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        
+        & .horario {
+            &__contenedor {
+                width: 80%;
+                height: 100px;
+                margin-block: 20px;
+                background-color: $color-blanco;
+                border-radius: 40px;
+                box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+                // display: flex;
+                // align-items: center;
+                // justify-content: space-around;
+                // flex-direction: row;
+                animation: animacion-horario-aparecer 1s;
+                position: relative;
+                // transition: opacity 0.5s ease-in-out 1s, height 1s ease-in-out;
+                
+                &--ocultar {
+                    animation: animacion-horario-desaparecer 1s;
+                }
+
+                &--expandido {
+                    & .horario__campo.horaInicio {
+                        left: 10%;
+                    }
+
+                    & i.gg-arrow-long-right-l {
+                        left: 35%;
+                    }
+
+                    & .horario__campo.horaFin {
+                        left: 58%;
+                    }
+                }
+
+                & .gg-arrow-long-right-l {
+                    width: 15%;
+                    top: 45%;
+                    left: 43%;
+                    position: absolute;
+                    transition: left 0.8s ease-in-out;
+                }
+
+            }
+
+            &__campo {
+                width: 200px;
+                height: 40px;
+                transition: left 0.8s ease-in-out;
+                
+                &.horaInicio {
+                    top: 30%;
+                    left: 15%;
+                    position: absolute;
+                }
+
+                &.horaFin {
+                    top: 30%;
+                    left: 70%;
+                    position: absolute;
+                }
+            }
+
+            &__boton-eliminar {
+                top: 30%;
+                left: 85%;
+                position: absolute;
+                color: $color-cancelado;
+                transition: color 0.5s ease-out, background-color 0.5s ease-out;
+                animation: animacion-aparecer-boton-eliminar 2s;
+
+                &:hover {
+                    color: $color-blanco;
+                    background-color: $color-cancelado;
+                }
+            }
+
+        }
+    }
+
+    &__boton-annadir-horario {
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        font-size: 12px;
+        border-radius: 50%;
+        color: $color-blanco;
+        margin-block: 20px;
+        background-color: $azul-defecto-angular-material;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        animation: punto-notificacion-no-visualizada 5s ease-in-out infinite;
+
+        & mat-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 40px;
+        }
+    }
+
+}
+
+.botones {
+    width: 100%;
+    height: 50px;
+    margin-block: 100px;
+    position: relative;
+
+    & .boton-guardar {
+        left: calc(50% - 60px);
+        position: absolute;
+        width: max-content;
+        min-width: 120px;
+        height: 50px;
+        font-size: 17px;
+        font-family: 'Poppins', sans-serif;
+        color: $color-blanco;
+        background-color: $color-paleta-2;
+        transition: left 0.8s ease-in-out;
+
+        &--deshabilitado {
+            background-color: rgba(0,0,0,.12);
+        }
+
+        &--desplazado {
+            left: calc(40% - 60px);
+        }
+    }
+
+    & .boton-borrar-todos {
+        left: calc(60% - 60px);
+        width: max-content;
+        min-width: 120px;
+        height: 50px;
+        font-size: 17px;
+        font-family: 'Poppins', sans-serif;
+        animation: animacion-aparecer-boton-eliminar 0.8s ease-in-out;
+
+        &:not(.boton-borrar-todos--deshabilitado):hover {
+            color: $color-blanco;
+            background-color: $color-cancelado;
+        }
+    }
+}
+
+@keyframes animacion-horario-aparecer {
+    0% {opacity: 0; height: 0px;}
+    50% {opacity: 0; height: 80px;}
+    100% {opacity: 1; height: 80px;}
+}
+
+@keyframes animacion-horario-desaparecer {
+    0% {opacity: 1; height: 80px;}
+    50% {opacity: 0; height: 80px;}
+    100% {opacity: 0; height: 0px;}
+}
+
+@keyframes animacion-aparecer-boton-eliminar {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@media (max-width: 573px) {
+    .selector-prueba__contenedor {
+        width: 100%;
+        height: 125px;
+        border-radius: 0;
+        margin-top: 150px;
+    }
+}
+
+@media (max-width: 800px) {
+    .selector-prueba__contenedor {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 1060px) {
+    .componente__contenedor .titulo__contenedor--con-boton-volver .boton {
+        top: 5%;
+        left: calc(50% - 75px);
+    }
+
+    .componente__contenedor .titulo__contenedor--con-boton-volver .titulo {
+        margin-top: 13vh;
+        margin-bottom: 7vh;
+    }
+}

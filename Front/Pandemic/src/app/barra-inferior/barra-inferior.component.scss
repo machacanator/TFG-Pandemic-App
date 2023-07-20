@@ -1,0 +1,259 @@
+@import '../../constantes/globales.scss';
+
+.barra-inferior {
+    &__contenedor{
+        width: 100%;
+        height: 350px;
+        color: $color-blanco;
+        background-color: $color-paleta-1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // position: relative;
+        // position: absolute;
+        // bottom: -350px;
+
+        &>div {
+            margin-top: 20px;
+        }
+    }
+
+    &__redes-sociales {
+        width: 50%;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+
+        fa-icon {
+            z-index: 1;
+            display: flexbox;
+            transition: font-size, 0s, ease-out, 0.3s;
+        }
+
+        .red-social {
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-image: linear-gradient($color-paleta-2 25%, $color-paleta-5);
+            border-radius: 25px;
+            position: relative;
+
+            &:hover {
+                font-size: 35px;
+            }
+        }
+
+        div::after {
+            content: '';
+            opacity: 0;
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            background-image: linear-gradient($color-paleta-3 25%, $color-paleta-4);
+            transition: opacity, 0s, ease-out, 0.3s;
+            transition: width, 0s, ease-out, 0.3s;
+            transition: height, 0s, ease-out, 0.3s;
+            border-radius: 25px;
+        }
+
+        div:hover::after {
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            opacity: 1;
+        }
+    }
+
+    &__patrocinadores {
+        width: 50%;
+        min-width: 626px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            height: 120px;
+            position: absolute;
+            width: 200px;
+            left: 0;
+            top: 0;
+            z-index: 2;
+            background: linear-gradient(to right, rgba($color-paleta-1, 1) 0%, rgba($color-paleta-1, 0) 100%);
+        }
+        
+        &::after {
+            content: "";
+            height: 120px;
+            position: absolute;
+            width: 200px;
+            right: 0;
+            top: 0;
+            z-index: 2;
+            background: linear-gradient(to left, rgba($color-paleta-1, 1) 0%, rgba($color-paleta-1, 0) 100%); 
+        }
+
+
+        .carrousel {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            animation: animacion-patrocinadores 40s linear infinite;
+
+            div {
+                max-width: 226px;
+                max-height: 100px;
+                min-width: 226px;
+                min-height: 100px;
+                margin-right: 100px;
+                margin-top: 0px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                cursor: pointer;
+                opacity: 0.3;
+                display: block;
+            }
+    
+            div:hover {
+                opacity: 1;
+            }
+            
+            & .covid {
+                background-image: url('../../static/patrocinadores/covid.png');
+            }
+    
+            & .urjc {
+                background-image: url('../../static/patrocinadores/urjc.png');
+            }
+    
+            & .salud-madrid {
+                background-image: url('../../static/patrocinadores/salud-madrid.png');
+            }
+    
+            & .quiron {
+                background-image: url('../../static/patrocinadores/quiron.png');
+            }
+    
+            & .sanitas {
+                background-image: url('../../static/patrocinadores/sanitas.png');
+            }
+        }
+
+    }
+
+    &__opciones {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+
+        span {
+            z-index: 2;
+            text-align: center;
+            font-size: 14px;
+            font-family: "Zen Dots", cursive;
+            border-radius: 5px;
+            position: relative;
+            transition: color, 0s, ease-out, 0.3s;
+        }
+
+        .opcion {
+            cursor: pointer;
+            width: fit-content;
+            padding-inline: 15px;
+            padding-block: 5px;
+            position: relative;
+
+            &:hover {
+                color: $color-paleta-1;
+            }
+        }
+
+        div::after {
+            content: '';
+            opacity: 0;
+            position: absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            background-color: $color-paleta-4;
+            transition: opacity, 0s, ease-out, 0.5s;
+            transition: color, 0s, ease-out, 0.5s;
+        }
+
+        div:hover::after{
+            opacity: 1;
+        }
+    }
+
+    &__derechos {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-style: oblique;
+    }
+}
+
+@keyframes animacion-patrocinadores {
+    0%{transform: translateX(0);}
+    100%{transform: translateX(calc(5 * -326px))}
+}
+
+@media (max-width: 670px) {
+    .barra-inferior {
+        &__redes-sociales {
+            width: 100%;
+        }
+    
+        &__derechos span {
+            text-align: center;
+        }
+    
+        &__patrocinadores {
+            width: 100%;
+            min-width: 0px;
+
+            &::before, &::after {
+                width: 100px;
+            }
+        }
+    }
+}
+
+@media (max-width: 865px) {
+    .barra-inferior {
+        &__contenedor {
+            height: 450px;
+            bottom: -450px;
+        }
+
+        &__opciones {
+            height: max-content;
+            flex-direction: column;
+    
+            .opcion {
+                margin-block: 5px;
+            }
+        }
+    }
+}

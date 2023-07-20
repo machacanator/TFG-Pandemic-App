@@ -1,0 +1,49 @@
+<div *ngIf="mostrarPieDePagina" class="barra-inferior__contenedor">
+    <div class="barra-inferior__redes-sociales">
+        <div class="red-social" (click)="redirigirRedSocial('Youtube')">
+            <fa-icon [icon]="this.youtubeLogo"></fa-icon>
+        </div>
+        <div class="red-social" (click)="redirigirRedSocial('Twitter')">
+            <fa-icon [icon]="twitterLogo"></fa-icon>
+        </div>
+        <div class="red-social" (click)="redirigirRedSocial('Instagram')">
+            <fa-icon [icon]="instagramLogo"></fa-icon>
+        </div>
+        <div class="red-social" (click)="redirigirRedSocial('Facebook')">
+            <fa-icon [icon]="facebookLogo"></fa-icon>
+        </div>
+        <div class="red-social" (click)="redirigirRedSocial('GitHub')">
+            <fa-icon [icon]="githubLogo"></fa-icon>
+        </div>
+    </div>
+    <div class="barra-inferior__patrocinadores">
+        <div class="carrousel">
+            <div class="covid"></div>
+            <div class="urjc"></div>
+            <div class="salud-madrid"></div>
+            <div class="quiron"></div>
+            <div class="sanitas"></div>
+            <!-- Lo copiamos 2 veces para que se vea bien cuando acabe la animacion -->
+            <div class="covid"></div>
+            <div class="urjc"></div>
+            <div class="salud-madrid"></div>
+            <div class="quiron"></div>
+            <div class="sanitas"></div>
+        </div>
+    </div>
+    <div class="barra-inferior__opciones">
+        <div class="opcion" (click)="descargarDocumentoAvisoLegal()">
+            <span>Aviso legal y políticas de privacidad</span>
+        </div>
+        <div class="opcion" (click)="descargarDocumentoTerminosYCondiciones()">
+            <span>Términos y condiciones</span>
+        </div>
+        <div  class="opcion" (click)="redirigirAInfoEmpresa()">
+            <span>Información de la empresa</span>
+        </div>
+    </div>
+    <div class="barra-inferior__derechos">
+        <span>©2022 Pandemic, Inc. Todos los derechos reservados.</span>
+        <span>Todas las marcas comerciales a las que se hace referencia son propiedad de sus respectivos dueños.</span>
+    </div>
+</div>

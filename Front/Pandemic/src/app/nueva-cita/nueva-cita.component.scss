@@ -1,0 +1,347 @@
+@import '../../constantes/globales.scss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.componente__contenedor {
+    overflow-x: hidden;
+
+    .representacion-pasos {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        ::ng-deep .mat-stepper-vertical {
+            font-size: 16px;
+            background-color: transparent;
+
+            & .mat-vertical-content {
+                padding: 0 24px 70px 24px;
+            }
+
+            & .mat-vertical-content-container {
+                margin-left: 43px;
+            }
+
+            & .mat-step-label-selected {
+                font-weight: 600;
+            }
+
+            & .mat-step-text-label {
+                font-size: 16px;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            & .mat-step-icon {
+                width: 40px;
+                height: 40px;
+
+                &-state-done {
+                    background-color: $color-completado;
+                }
+            }
+
+            & .deshabilitado .mat-step-header {
+                pointer-events: none !important;
+            }
+        }
+    }
+    
+    .pasos {
+        width: calc(100vw - 134px);
+        height: calc(100vh - 16vh - 124px);
+        background-color: transparent;
+        display: flex;
+        flex-direction: row;
+
+        &__contenedor {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        &--ocultos {
+            display: none;
+        }
+
+        .paso {
+            opacity: 0;
+            width: 100%;
+            height: 90%;
+            margin-left: 25%;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: -1;
+
+            &--seleccionado {
+                margin-left: 0;
+                display: flex;
+                opacity: 1;
+                z-index: 1;
+                transition: opacity 1s ease-out 1s, margin-left 1s ease-out 1s;
+                animation: mostrar-paso 1s ease-in-out;
+            }
+
+            &--ocultar {
+                margin-left: 0;
+                display: flex;
+                z-index: 0;
+                animation: ocultar-paso 1s ease-in-out;
+            }
+
+            &--ocultado {
+                display: none;
+            }
+
+            & .info {
+                margin-bottom: 40px;
+            }
+
+            & .tarjeta {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border-radius: 20px;
+                background-color: $color-blanco;
+                box-shadow: 1px 3px 16px -7px $color-paleta-1;
+                position: relative;
+                transition: width 1s ease-in-out, height 1s ease-in-out; 
+            }
+
+            & .horas {
+
+                &__contenedor {
+                    width: 90%;
+                    height: 315px;
+                    margin-bottom: 30px;
+                    display: inline-block;
+                    align-items: center;
+                    justify-content: center;
+                    overflow-y: auto;
+                }
+
+                &__fila {
+                    width: 100%;
+                    height: 50px;
+                    margin-block: 15px;
+                    display: flex;
+                    position: relative;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    align-items: center;
+                }
+
+                &__boton, & div {
+                    width: 120px;
+                    height: 50px;
+                    margin-inline: 5%;
+                    border: 1px solid;
+                    box-shadow: none;
+                    border-radius: 10px;
+
+                    &--vacio {
+                        border: none;
+                    }
+
+                    &--seleccionado {
+                        box-shadow: 0px 0px 6px 3px $azul-defecto-angular-material;
+                    }
+                }
+
+            }
+        }
+
+        .botones {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+            & .boton {
+                bottom: 0;
+                width: fit-content;
+                min-width: 120px;
+                height: 50px;
+                color: $color-blanco;
+                background-color: $color-paleta-2;
+    
+                &--sin-click {
+                    pointer-events: none;
+                }
+    
+                &.mat-button-disabled{
+                    background-color: rgba(0,0,0,.12);
+                }
+            }
+        }
+
+    }
+
+    & #paso1 .tarjeta, #paso2 .tarjeta, & #paso3 .tarjeta.tarjeta--pequeña {
+        width: 70%;
+        max-width: 600px;
+        height: 200px;
+        justify-content: center;
+        
+        mat-form-field {
+            width: 300px;
+        }
+    }
+
+    
+    & #paso3 form {
+        margin-block: 30px;
+    }
+
+    & #paso4 .tarjeta {
+        padding-block: 30px;
+    }
+
+    & #paso3 .tarjeta, #paso4 .tarjeta {
+        width: 100%;
+        max-width: 1000px;
+        height: max-content;
+        justify-content: flex-start;
+
+        mat-form-field {
+            width: 300px;
+        }
+    }
+
+    & #paso4 {
+
+        & div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        & mat-icon {
+            color: $azul-defecto-angular-material;
+            margin-right: 15px;
+        }
+
+        & .paciente__contenedor, .prueba__contenedor, .centro__contenedor, .fechahora__contenedor {
+            width: 100%;
+            height: 70px;
+        }
+
+        & .fechahora__texto-fecha, .fechahora__texto-hora {
+            width: 50%;
+        }
+
+        & .aviso {
+            width: 50%;
+            height: 50px;
+            color: $color-blanco;
+            background-color: $color-paleta-3;
+            border-radius: 15px;
+            text-align: center;
+            padding-block: 5px;
+            padding-inline: 20px;
+
+            &__contenedor {
+                width: 100%;
+                height: 100px;
+            }
+        }
+    }
+}
+
+::ng-deep mat-option {
+    .mat-option-text{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+@keyframes mostrar-paso {
+    0%{margin-left: 25%; opacity: 0;}
+    100%{margin-left: 0; opacity: 1;}
+}
+
+@keyframes mostrar-paso-2 {
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+
+@keyframes ocultar-paso {
+    0%{margin-left: 0; opacity: 1;}
+    100%{margin-left: -25%; opacity: 0;}
+}
+
+@keyframes ocultar-paso-2 {
+    0%{opacity: 1;}
+    100%{opacity: 0;}
+}
+
+@media (max-width: 560px) {
+    .componente__contenedor {
+        #paso4 .fechahora__contenedor {
+            height: max-content;
+            flex-direction: column;
+
+            .fechahora__texto-fecha, .fechahora__texto-hora {
+                height: 70px;
+            }
+        }
+    } 
+}
+
+@media (max-width: 790px) {
+    .componente__contenedor {
+        .pasos{
+            width: 100%;
+        }
+
+        .pasos__contenedor {
+            width: 100%;
+
+            .paso {
+                & .tarjeta {
+                    transition: height 1s ease-in-out;
+                }
+                
+                &--seleccionado {
+                    animation: mostrar-paso-2 1s ease-in-out;
+                }
+    
+                &--ocultar {
+                    animation: ocultar-paso-2 1s ease-in-out;
+                }
+            }
+
+            
+            #paso4 .aviso {
+                width: 85%;
+            }
+
+            #paso1 .tarjeta, #paso2 .tarjeta, #paso3 .tarjeta, #paso4 .tarjeta {
+                width: 100%;
+                max-width: none;
+                border-radius: 0;
+            } 
+        }
+    } 
+}
+
+@media (max-width: 600px) {
+    .componente__contenedor .representacion-pasos {
+        display: none;
+    }
+}
+
+@media (max-width: 1170px) {
+    .componente__contenedor .representacion-pasos {
+        display: none;
+    }
+}

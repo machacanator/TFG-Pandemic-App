@@ -1,0 +1,62 @@
+<div class="componente__contenedor">
+
+    <div class="titulo">Administrar Pruebas Complementarias</div>
+
+    <div class="filtro">
+    <mat-form-field>
+        <mat-label>Filtro</mat-label>
+        <input matInput [formControl]="filtro" (keyup)="filtrarListado(filtro.value)">
+    </mat-form-field>
+    </div>
+    <div class="tabla">
+        <mat-table [dataSource]="listadoParaMostrar" class="mat-elevation-z8" matSort (matSortChange)="cambioOrden($event)">
+           
+            <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="horarios">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Horarios </mat-header-cell>
+                <!-- <mat-cell *matCellDef="let element">{{element.pruebasDisponibles}}</mat-cell> -->
+                <mat-cell *matCellDef="let element">
+                    <mat-chip-list *ngIf="element.horarios.length > 0">
+                        <mat-chip *ngFor="let horario of element.horarios">
+                        {{horario.horaInicio +" -> "+horario.horaFin}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div class="acciones">
+                <button mat-button class="icono" (click)="editarHorariosPruebaComplementaria(element)"><mat-icon>edit</mat-icon></button>
+                <button mat-button class="icono" (click)="confirmacionEliminarPruebaDeCentro(element)"><mat-icon>cancel</mat-icon></button>
+                </div>
+            </mat-cell>
+            </ng-container>
+
+            <tr class="mat-row" *matNoDataRow>
+            <th class="mat-cell" [attr.colspan]="columnasTabla.length">
+                No se han encontrado resultados
+            </th>
+            </tr>
+            <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnasTabla;"></mat-row>
+        </mat-table>
+        <mat-paginator
+            [length]="totalRegistros"
+            [pageSize]="resultadosPorPagina"
+            [pageSizeOptions] = "opcionesPruebasPorPagina"
+            [showFirstLastButtons] = true
+            (page)="cargarPruebasComplementariasCentro($event.pageIndex, $event.pageSize)"
+        ></mat-paginator>
+    </div>
+
+    <div class="annadir-prueba__contenedor">
+        <button mat-raised-button class="annadir-prueba__boton" (click)="annadirNuevaPruebaComplementariaACentro()"><mat-icon>add</mat-icon>Nueva prueba</button>
+    </div>
+</div>
+

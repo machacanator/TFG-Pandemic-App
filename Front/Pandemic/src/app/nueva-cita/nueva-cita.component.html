@@ -1,0 +1,136 @@
+<div class="componente__contenedor" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo__contenedor titulo__contenedor--con-boton-volver">
+        <div class="boton" (click)="volverACitasPendientes()">
+            <mat-icon>arrow_back_ios</mat-icon>
+            Volver
+        </div>
+        <div class="titulo">{{modoEditarCita ? 'Editar Cita' : 'Nueva Cita'}}</div>
+    </div>
+
+    <div class="pasos" >
+        <div class="representacion-pasos">
+            <mat-vertical-stepper [linear]="true" #graficoPasos id="graficoPasos" [animationDuration]="duracionAnimacionGrafico.toString()" (selectionChange)="clickGraficoPaso($event)" >
+                <mat-step [stepControl]="formularios.at(0)" [completed]="modoEditarCita ? true : formularios.at(0).valid" optional="false" label="Prueba complementaria"></mat-step>
+                <mat-step [stepControl]="formularios.at(1)" [completed]="formularios.at(1).valid" optional="false" label="Centro médico"></mat-step>
+                <mat-step [stepControl]="formularios.at(2)" [completed]="formularios.at(2).valid" optional="false" label="Fecha y hora"></mat-step>
+                <mat-step optional="false" [completed]="formularios.valid" label="Comprobación datos"></mat-step>
+            </mat-vertical-stepper>
+        </div>
+        <div class="pasos__contenedor">
+            <!-- <div class="paso" *ngFor="let formulario of formularios.controls; let indiceFormulario = index"> -->
+            <div id="paso1" [ngClass]="{'paso': true, 'paso--seleccionado': this.graficoPasos.selectedIndex === 0}">
+                <div class="tarjeta">
+                    <span class="info">Seleccione la prueba complementaria que desea realizar</span>
+                    <form class="selector-prueba" [formGroup]="formularios.at(0)">
+                        <mat-form-field>
+                            <mat-label>Prueba</mat-label>
+                            <mat-select formControlName="prueba" required (selectionChange)="cambioPrueba($event.value)">
+                              <mat-select-trigger>{{formularios.at(0).get("prueba").value ? getNombrePrueba() : 'Seleccione una prueba'}}</mat-select-trigger>
+                              <mat-option [value]="0">{{'Seleccione una prueba'}}</mat-option>
+                              <mat-option *ngFor="let prueba of listadoPruebasDisponibles" [value]="prueba.id">{{prueba.nombre}} <mat-icon *ngIf="prueba.muyRecomendable">star</mat-icon></mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formularios.at(0).get('prueba').invalid">Seleccione una opción válida</mat-error>
+                            <mat-hint><mat-icon>star</mat-icon> Muy recomendada</mat-hint>
+                        </mat-form-field>
+                    </form>
+                </div>
+            </div>
+            <div id="paso2" [ngClass]="{'paso': true, 'paso--seleccionado': this.graficoPasos.selectedIndex === 1}">
+                <div class="tarjeta">
+                    <span class="info">Seleccione el centro donde desea realizar la prueba</span>
+                    <form [formGroup]="formularios.at(1)">
+                        <mat-form-field>
+                            <mat-label>Centro</mat-label>
+                            <mat-select formControlName="centro" required (selectionChange)="cambioCentro($event.value)">
+                              <mat-option [value]="0">{{'Seleccione un centro'}}</mat-option>
+                              <mat-option *ngFor="let centro of listadoCentros" [value]="centro.id">{{centro.nombre}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </form>
+                </div>
+            </div>
+            <div id="paso3" [ngClass]="{'paso': true, 'paso--seleccionado': this.graficoPasos.selectedIndex === 2}">
+                <div [ngClass]="{'tarjeta': true, 'tarjeta--pequeña': !this.formularios?.at(2)?.get('fecha')?.valid}">
+                    <form [formGroup]="formularios.at(2)">
+                        <mat-form-field appearance="fill" class="calendario">
+                            <mat-label>Seleccione una fecha</mat-label>
+                            <input matInput [matDatepicker]="selectorFecha" [matDatepickerFilter]="filtroFechas" formControlName="fecha" (ngModelChange)="cambioFecha()" >
+                            <mat-hint>Patrón: DD/MM/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="selectorFecha"></mat-datepicker-toggle>
+                            <mat-datepicker #selectorFecha [calendarHeaderComponent]="cabeceraCalendario"></mat-datepicker>
+                        </mat-form-field>
+                    </form>
+                    <!-- <div class="horas__contenedor" *ngIf="listadoHorasDisponibles?.length > 0">
+                        <div class="horas__fila" *ngFor="let fila of numeroDeFilasDeHoras; let numeroFila = index">
+                            <button 
+                                mat-raised-button
+                                *ngFor="let hora of listadoHorasDisponibles.slice(numeroFila*horasPorFila,(numeroFila+1)*horasPorFila)"
+                                [ngClass]="{'horas__boton': true, 'horas__boton--seleccionado': formularios.at(2).get('hora').value === hora}" 
+                                (click)="seleccionarHora(hora)"
+                            >{{hora}}</button>
+                            <ng-container *ngIf="listadoHorasDisponibles.length%horasPorFila > 0 && numeroFila === numeroDeFilasDeHoras.length - 1">
+                                <div class="horas__boton horas__boton--vacio" *ngFor="let vacio of getEspacioEnBlanco()"></div>
+                            </ng-container>
+                        </div>
+                    </div> -->
+                    <div class="horas__contenedor" *ngIf="listadoHorasDisponibles?.length > 0 && esFechaSeleccionadaHoy()">
+                        <div class="horas__fila" *ngFor="let fila of getFilasDeHorasHoy(); let numeroFila = index">
+                            <button 
+                                mat-raised-button
+                                *ngFor="let hora of getListadoHorasDisponiblesHoy().slice(numeroFila*horasPorFila,(numeroFila+1)*horasPorFila)"
+                                [ngClass]="{'horas__boton': true, 'horas__boton--seleccionado': formularios.at(2).get('hora').value === hora}" 
+                                (click)="seleccionarHora(hora)"
+                            >{{hora}}</button>
+                            <ng-container *ngIf="listadoHorasDisponibles.length%horasPorFila > 0 && numeroFila === numeroDeFilasDeHoras.length - 1">
+                                <div class="horas__boton horas__boton--vacio" *ngFor="let vacio of getEspacioEnBlanco()"></div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    
+                    <div class="horas__contenedor" *ngIf="listadoHorasDisponibles?.length > 0 && !esFechaSeleccionadaHoy()">
+                        <div class="horas__fila" *ngFor="let fila of numeroDeFilasDeHoras; let numeroFila = index">
+                            <button 
+                                mat-raised-button
+                                *ngFor="let hora of listadoHorasDisponibles.slice(numeroFila*horasPorFila,(numeroFila+1)*horasPorFila)"
+                                [ngClass]="{'horas__boton': true, 'horas__boton--seleccionado': formularios.at(2).get('hora').value === hora}" 
+                                (click)="seleccionarHora(hora)"
+                            >{{hora}}</button>
+                            <ng-container *ngIf="listadoHorasDisponibles.length%horasPorFila > 0 && numeroFila === numeroDeFilasDeHoras.length - 1">
+                                <div class="horas__boton horas__boton--vacio" *ngFor="let vacio of getEspacioEnBlanco()"></div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="paso4" [ngClass]="{'paso': true, 'paso--seleccionado': this.graficoPasos.selectedIndex === 3}">
+                <div class="tarjeta">
+                    <div class="paciente__contenedor">
+                        <div><mat-icon>person</mat-icon>Paciente: &nbsp;{{getNombrePaciente()}}</div>
+                    </div>
+                    <div class="prueba__contenedor">
+                        <div class="prueba__texto-prueba"><mat-icon>medical_services</mat-icon>Prueba: {{getNombrePrueba()}}</div>
+                    </div>
+                    <div class="centro__contenedor">
+                        <div class="centro__texto-centro"><mat-icon>apartment</mat-icon>Centro: {{getNombreCentro()}}</div>
+                    </div>
+                    <div class="fechahora__contenedor">
+                        <div class="fechahora__texto-fecha"><mat-icon>calendar_month</mat-icon>Día: {{getFechaSeleccionada()}}</div>
+                        <div class="fechahora__texto-hora"><mat-icon>schedule</mat-icon>Hora(24h): {{formularios.at(2).get("hora").value}}</div>
+                    </div>
+                    <div class="aviso__contenedor">
+                        <div class="aviso">Aviso, comprobar que todos los datos son correctos antes de continuar</div>
+                    </div>
+                </div>
+            </div>
+            <div class="botones">
+                <!-- <button *ngIf="this.graficoPasos.selectedIndex >= 1" mat-raised-button [ngClass]="{'boton': true, 'boton--sin-click': !animacionCompletada}" (click)="seleccionarPaso(this.graficoPasos.selectedIndex)">Anterior</button> -->
+                <button mat-raised-button [ngClass]="{'boton': true, 'boton--sin-click': !animacionCompletada}" [disabled]="this.graficoPasos?.selectedIndex === 0" (click)="seleccionarPaso(this.graficoPasos.selectedIndex)">Anterior</button>
+                <button *ngIf="this.graficoPasos.selectedIndex < 3" mat-raised-button [ngClass]="{'boton': true, 'boton--sin-click': !animacionCompletada}" [disabled]="(!modoEditarCita || !formularios.at(this.graficoPasos?.selectedIndex).disabled) && !formularios.at(this.graficoPasos?.selectedIndex).valid" (click)="seleccionarPaso(this.graficoPasos.selectedIndex + 2)">Siguiente</button>
+                <button *ngIf="modoEditarCita ? (this.graficoPasos.selectedIndex === 3 && haHechoAlgunCambioEnFormulario()) : this.graficoPasos.selectedIndex === 3" mat-raised-button class="boton" (click)="pedirCita()">{{modoEditarCita ? 'Guardar Cambios' : 'Pedir cita'}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,74 @@
+<div class="componente__contenedor" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo__contenedor titulo__contenedor--con-boton-volver">
+        <div class="boton" (click)="volverADiarioDeCitas()">
+            <mat-icon>arrow_back_ios</mat-icon>
+            Volver
+        </div>
+        <div class="titulo">Gestionar cita</div>
+    </div>
+    <div class="datos__contenedor">
+        <div class="datos-cita">
+            <div>Identificador: {{datosCita?.id}}</div>
+            <div><mat-icon>calendar_month</mat-icon> {{datosCita?.fecha}}</div>
+            <div><mat-icon>schedule</mat-icon> {{datosCita?.hora}}</div>
+            <div><mat-icon>vaccines</mat-icon> {{datosCita?.nombrePrueba}}</div>
+        </div>
+        <div class="datos-paciente">
+            <div>Numero seguridad social: {{datosPaciente?.numeroSeguridadSocial}}</div>
+            <div>Nombre: {{datosPaciente?.nombre}}</div>
+            <div>Apellidos: {{datosPaciente?.apellidos}}</div>
+            <div>Edad: {{datosPaciente?.edad}}</div>
+        </div>
+    </div>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Listado pruebas pendientes
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list *ngIf="listadoPruebasPendientes.length > 0">
+                <mat-chip *ngFor="let prueba of listadoPruebasPendientes">
+                  {{prueba}}
+                </mat-chip>
+            </mat-chip-list>
+            <div *ngIf="listadoPruebasPendientes.length === 0" class="mensaje-lista-vacia">No hay ninguna prueba pendiente</div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Listado pruebas realizadas
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list *ngIf="listadoPruebasRealizadas.length > 0">
+                <mat-chip *ngFor="let prueba of listadoPruebasRealizadas">
+                  {{prueba}}
+                </mat-chip>
+            </mat-chip-list>
+            <div *ngIf="listadoPruebasRealizadas.length === 0" class="mensaje-lista-vacia">No se le ha realizado ninguna prueba</div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    
+    <div class="formulario">
+        <form [formGroup]="formulario">
+            <label>Estado de la cita: </label>
+            <mat-radio-group formControlName="estado">
+                <mat-radio-button [value]="1">
+                    Completada
+                </mat-radio-button>
+                <mat-radio-button [value]="-3">
+                    Cancelada
+                </mat-radio-button>
+            </mat-radio-group>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Observaciones</mat-label>
+                <textarea matInput formControlName="observaciones" rows="20" placeholder="Inserte sus observaciones aquí..." cdkAutosizeMinRows="20" cdkTextareaAutosize></textarea>
+            </mat-form-field>
+        </form>
+        <button mat-raised-button class="boton" (click)="gestionarCita()">Guardar</button>
+    </div>
+
+</div>

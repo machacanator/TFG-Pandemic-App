@@ -1,0 +1,52 @@
+<div class="componente__contenedor">
+
+    <div class="titulo">Estadísticas empleados</div>
+
+    <div [ngClass]="{'buscador__contenedor': true, 'buscador__contenedor--recogido': datosGraficos != null}">
+        <form [formGroup]="formulario" class="buscador">
+            <mat-form-field>
+                <mat-label>Empleado</mat-label>
+                <mat-select formControlName="idUsuarioEmpleado">
+                    <mat-option *ngFor="let empleado of listaEmpleadosCentro" [value]="empleado.idUsuario">{{empleado.nombre}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="!formulario.get('modoAnual').value" appearance="fill">
+                <mat-label>Seleccione una fecha</mat-label>
+                <input matInput [matDatepicker]="selectorFecha" [matDatepickerFilter]="filtroFechas" formControlName="fecha">
+                <mat-hint>Patrón: MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="selectorFecha"></mat-datepicker-toggle>
+                <mat-datepicker #selectorFecha startView="multi-year" (yearSelected)="cambioAnno($event)" (monthSelected)="cambioMes($event, selectorFecha)"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field *ngIf="formulario.get('modoAnual').value" appearance="fill">
+                <mat-label>Año</mat-label>
+                <mat-select formControlName="anno">
+                    <mat-option *ngFor="let anno of listadoAnnosDisponibles" [value]="anno">{{anno}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-checkbox  formControlName="modoAnual">Modo anual</mat-checkbox>
+            <button mat-raised-button class="boton" (click)="pedirEstadisticas()">Ver estadísticas</button>
+        </form>
+    </div>
+    <div [ngClass]="{'graficos': true, 'graficos--ocultar': datosGraficos === null}">
+        <div class="grafico__contenedor">
+            <div class="titulo">Número de citas por centro</div>
+            <div class="grafico">
+                <canvas #graficoBarrasVerticales ></canvas>
+            </div>
+        </div>
+        <div *ngFor="let graficoCentro of datosGraficos" class="grafico__contenedor">
+            <div class="titulo">Pruebas de {{graficoCentro.nombreCentro}}</div>
+            <div class="grafico">
+                <canvas #graficoCircular></canvas>
+            </div>
+        </div>
+
+        <div *ngIf="datosGraficos?.length > 1" class="grafico__contenedor">
+            <div class="titulo">Total de pruebas</div>
+            <div class="grafico">
+                <canvas #graficoCircular></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+

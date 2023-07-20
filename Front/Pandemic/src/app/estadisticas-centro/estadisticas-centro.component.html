@@ -1,0 +1,70 @@
+<div class="componente__contenedor">
+
+    <div class="titulo">Estadísticas de {{nombreCentro ? nombreCentro : "centro"}}</div>
+
+    <div [ngClass]="{'buscador__contenedor': true, 'buscador__contenedor--recogido': datosGraficosTodasCarpetas != null}">
+        <form [formGroup]="formulario" class="buscador">
+            <mat-form-field *ngIf="!formulario.get('modoAnual').value" appearance="fill">
+                <mat-label>Seleccione una fecha</mat-label>
+                <input matInput [matDatepicker]="selectorFecha" [matDatepickerFilter]="filtroFechas" formControlName="fecha">
+                <mat-hint>Patrón: MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="selectorFecha"></mat-datepicker-toggle>
+                <mat-datepicker #selectorFecha startView="multi-year" (yearSelected)="cambioAnno($event)" (monthSelected)="cambioMes($event, selectorFecha)"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field *ngIf="formulario.get('modoAnual').value" appearance="fill">
+                <mat-label>Año</mat-label>
+                <mat-select formControlName="anno">
+                    <mat-option *ngFor="let anno of listadoAnnosDisponibles" [value]="anno">{{anno}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-checkbox  formControlName="modoAnual">Modo anual</mat-checkbox>
+            <button mat-raised-button class="boton" (click)="pedirEstadisticasTodasCarpetas()">Ver estadísticas</button>
+        </form>
+    </div>
+
+    <div [ngClass]="{'graficos': true, 'graficos--ocultar': datosGraficosTodasCarpetas === null}">
+        <div class="grafico__contenedor">
+            <div class="titulo">Citas por carpeta</div>
+            <div class="grafico">
+                <canvas #graficoLineasCarpetas></canvas>
+            </div>
+        </div>
+        <div class="grafico__contenedor">
+            <div class="titulo">Total de carpetas</div>
+            <div class="grafico">
+                <canvas #graficoCircularCarpetas></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div [ngClass]="{'graficos graficos--filtro': true, 'graficos--ocultar': datosGraficosTodasCarpetas === null}">
+        <div class="grafico__contenedor">
+            <div class="titulo titulo--tamanno-medio">Filtro por prueba</div>
+            <div class="selector-prueba">
+                <mat-form-field>
+                    <mat-label>Prueba</mat-label>
+                    <mat-select [formControl]="selectorCarpeta">
+                        <mat-option *ngFor="let carpeta of listaCarpetasDePruebasCentro" [value]="carpeta">{{carpeta.nombre}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="selectorCarpeta.invalid">Seleccione una opción válida</mat-error>
+                </mat-form-field>
+                <button mat-raised-button class="boton" (click)="pedirEstadisticasDeCarpeta()">Ver gráfico</button>
+            </div>
+        </div>
+        <div [ngClass]="{'graficos graficos--sin-margen-superior': true, 'graficos--ocultar': datosGraficosCarpetaSeleccionada === null}">
+            <div class="grafico__contenedor">
+                <div class="titulo">Citas de {{ultimaBusquedaDeCarpeta?.nombre}}</div>
+                <div class="grafico">
+                    <canvas #graficoLineasCarpeta></canvas>
+                </div>
+            </div>
+            <div class="grafico__contenedor">
+                <div class="titulo">Total de pruebas de {{ultimaBusquedaDeCarpeta?.nombre}}</div>
+                <div class="grafico">
+                    <canvas #graficoCircularCarpeta></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

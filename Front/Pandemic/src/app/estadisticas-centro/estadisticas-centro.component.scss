@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+@import '../../constantes/globales.scss';
+
+.buscador {
+    top: calc(50vh - 274px);
+    position: absolute;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    height: 130px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 40px;
+    background-color: $color-blanco;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+    transition: top 0.7s ease-in-out;
+    
+    &__contenedor {
+        width: 100%;
+        height: fit-content; 
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        
+        &--recogido {
+            height: fit-content; 
+            transition: height 1s ease-in-out;
+
+            & .buscador {
+                top: 0;
+            }   
+        }
+    }
+    
+    & mat-form-field {
+        width: 236px;
+        height: 71.56px;
+    }
+
+    & button {
+        color: $color-blanco;
+        font-family: 'Poppins', sans-serif;
+        background-color: $color-paleta-2;
+    }
+}
+
+.selector-prueba {
+    width: 60%;
+    max-width: 540px;
+    display: flex;
+    height: 100px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 40px;
+    background-color: $color-blanco;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+    
+    & button {
+        color: $color-blanco;
+        font-family: 'Poppins', sans-serif;
+        background-color: $color-paleta-2;
+    }
+}
+
+.graficos {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 130px;
+    
+    &--ocultar {
+        display: none;
+    }
+    
+    &--filtro {
+        margin-top: 0;
+        margin-bottom: 50px;
+
+        .graficos{
+            margin-top: 0;
+        }
+    }
+
+    & .grafico {
+        width: 100%;
+        height: 300px;
+        
+        &__contenedor {
+            width: 80%;
+            height: fit-content;
+            margin-block: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            & .titulo {
+                font-size: 30px;
+                margin-block: 10px;
+                
+                &--tamanno-medio {
+                    font-size: 45px;
+                }
+            }
+        }
+    }
+
+    & .listado-graficos-circulares {
+        width: 80%;
+        height: fit-content;
+    }
+}

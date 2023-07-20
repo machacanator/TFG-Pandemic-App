@@ -1,0 +1,53 @@
+<div class="componente__contenedor" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo">Administrar Centros Comunidad</div>
+  
+    <div class="filtro">
+      <mat-form-field>
+        <mat-label>Filtro</mat-label>
+        <input matInput [formControl]="filtro" (keyup)="filtrarListado(filtro.value)">
+      </mat-form-field>
+    </div>
+    <div class="tabla">
+        <mat-table [dataSource]="listadoParaMostrar" class="mat-elevation-z8" matSort (matSortChange)="cambioOrden($event)">
+            <ng-container matColumnDef="nombre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="localizacion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Localización </mat-header-cell>
+              <mat-cell *matCellDef="let element"><div #texto class="texto-reducible" matTooltip="{{element.localizacion}}" matTooltipPosition="above" [matTooltipDisabled]="estaTextoReducido(texto)">{{element.localizacion}}</div></mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="administradores">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Administradores </mat-header-cell>
+                <mat-cell *matCellDef="let element"><div #texto class="texto-reducible" matTooltip="{{element.administradores}}" matTooltipPosition="above" [matTooltipDisabled]="estaTextoReducido(texto)">{{element.administradores}}</div></mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="acciones">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div class="acciones">
+                  <button mat-button class="icono" (click)="editarCentro(element)"><mat-icon>edit</mat-icon></button>
+                  <button mat-button class="icono" (click)="confirmacionEliminarCentro(element)"><mat-icon>cancel</mat-icon></button>
+                </div>
+              </mat-cell>
+            </ng-container>
+  
+            <tr class="mat-row" *matNoDataRow>
+              <th class="mat-cell" [attr.colspan]="columnasTabla.length">
+                No se han encontrado resultados
+              </th>
+            </tr>
+            <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnasTabla;"></mat-row>
+        </mat-table>
+    </div>
+  
+    <div class="annadir-empleado__contenedor">
+      <button mat-raised-button class="annadir-empleado__boton" (click)="annadirNuevoCentro()"><mat-icon>add</mat-icon>Nuevo centro</button>
+    </div>
+      
+  </div>
+  

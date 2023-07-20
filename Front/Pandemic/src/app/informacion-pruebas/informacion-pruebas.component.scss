@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+@import '../../constantes/globales.scss';
+
+.buscador {
+    top: calc(50vh - 274px);
+    position: absolute;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    height: 130px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 40px;
+    background-color: $color-blanco;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+    transition: top 0.7s ease-in-out;
+    
+    &__contenedor {
+        width: 100%;
+        height: fit-content; 
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        
+        &--recogido {
+            height: fit-content; 
+            transition: height 1s ease-in-out;
+
+            & .buscador {
+                top: 0;
+            }   
+        }
+    }
+    
+    & mat-form-field {
+        width: 236px;
+        height: 71.56px;
+    }
+
+    & button {
+        color: $color-blanco;
+        font-family: 'Poppins', sans-serif;
+        background-color: $color-paleta-2;
+    }
+}
+
+.conjunto-desplegables {
+    width: 80%;
+    height: max-content;
+    margin-block: 70px;
+    margin-top: 200px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity ease-in-out 0.7s ;
+
+    &--mostrar {
+        z-index: 0;
+        opacity: 1;
+    }
+
+    &--ocultar {
+        z-index: 0;
+        opacity: 0;
+    }
+
+    & .desplegable {
+        width: 100%;
+        height: max-content;
+        margin-block: 20px;
+
+        & .mat-expansion-panel-header{
+            background-color: $color-paleta-4;
+            font-size: 17px;
+            font-family: 'Poppins', sans-serif;
+        }
+        & .mat-expansion-panel-content, & ::ng-deep .mat-expansion-panel-body{
+            padding: 16px 24px 16px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        & .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+            color: $color-blanco;
+
+        }
+    }
+}

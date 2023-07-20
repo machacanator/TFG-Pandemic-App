@@ -1,0 +1,61 @@
+<div class="componente__contenedor" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo__contenedor titulo__contenedor--con-boton-volver">
+      <div class="boton" (click)="volverAListadoCarpetasDePruebas()">
+          <mat-icon>arrow_back_ios</mat-icon>
+          Volver
+      </div>
+      <div class="titulo">Administrar Pruebas</div>
+    </div>
+  
+    <div class="filtro">
+      <mat-form-field>
+        <mat-label>Filtro</mat-label>
+        <input matInput [formControl]="filtro" (keyup)="filtrarListado(filtro.value)">
+      </mat-form-field>
+    </div>
+    <div class="tabla">
+        <mat-table [dataSource]="listadoParaMostrar" class="mat-elevation-z8" matSort (matSortChange)="cambioOrden($event)">
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> {{anchuraVentana > 1150 ? 'Identificador' : 'Id'}} </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="nombre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+              <mat-cell *matCellDef="let element"><div #texto class="texto-reducible" matTooltip="{{element.nombre}}" matTooltipPosition="above" [matTooltipDisabled]="estaTextoReducido(texto)">{{element.nombre}}</div></mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="acciones">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div class="acciones">
+                  <button mat-button class="icono" (click)="editarPrueba(element)"><mat-icon>edit</mat-icon></button>
+                  <button mat-button class="icono" (click)="confirmacionEliminarPrueba(element)"><mat-icon>cancel</mat-icon></button>
+                </div>
+              </mat-cell>
+            </ng-container>
+  
+            <tr class="mat-row" *matNoDataRow>
+              <th class="mat-cell" [attr.colspan]="columnasTabla.length">
+                No se han encontrado resultados
+              </th>
+            </tr>
+            <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnasTabla;"></mat-row>
+        </mat-table>
+        <mat-paginator
+            [length]="totalRegistros"
+            [pageSize]="resultadosPorPagina"
+            [pageSizeOptions] = "opcionesPruebasPorPagina"
+            [showFirstLastButtons] = true
+            (page)="cargarPruebasDeLaCarpetaDePruebas($event.pageIndex, $event.pageSize, idCarpetaDeLasPruebas)"
+        ></mat-paginator>
+    </div>
+  
+    <div class="annadir-carpeta-pruebas__contenedor">
+      <button mat-raised-button class="annadir-carpeta-pruebas__boton" (click)="annadirNuevaPrueba()"><mat-icon>add</mat-icon>Nueva prueba</button>
+    </div>
+      
+  </div>
+  

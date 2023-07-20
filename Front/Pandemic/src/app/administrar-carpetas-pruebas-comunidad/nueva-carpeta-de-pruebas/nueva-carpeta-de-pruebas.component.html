@@ -1,0 +1,14 @@
+<div class="contenedor">
+    <div class="titulo">Nueva carpeta de pruebas</div>
+    <div class="campo-nombre">
+        <mat-form-field>
+            <mat-label>Nombre carpeta</mat-label>
+            <input matInput [formControl]="nombreCarpeta">
+        </mat-form-field>
+    </div>
+    
+    <div class="botones">
+        <button mat-raised-button [mat-dialog-close]="null">Cancelar</button>
+        <button mat-raised-button [mat-dialog-close]="nombreCarpeta.value">Guardar</button>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+@import '../../constantes/globales.scss';
+@import '../../constantes/mixin.scss';
+@import url('https://fonts.googleapis.com/css2?family=Galada&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+.componente__contenedor {
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.contenedor-filtros {
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    transition: background-color 0.5s ease-out;
+}
+
+.filtro {
+    min-width: 100px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: $color-blanco;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+
+    & mat-form-field {
+        width: 80%;
+    }
+    
+    &--texto {
+        width: 50%;
+        max-width: 400px;
+    }
+
+    &s--especiales {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &--prueba, &--centro {
+        width: 40%;
+        max-width: 400px;
+    }
+}
+
+.tabla {
+    width: 80%;
+    height: fit-content;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+      
+    mat-table {
+        width: 100%;
+        font-family: 'Poppins', sans-serif;
+        box-shadow: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+        & .texto-reducible {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+
+        & .mat-header-row {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            background-color: $color-paleta-2;
+        }
+
+        & .mat-header-cell {
+            color: $color-paleta-5;
+            font-size: 17px;
+        }
+
+        & .mat-no-data-row {
+            display: flex;
+            border-width: 0;
+            border-bottom-width: 1px;
+            border-style: solid;
+            align-items: center;
+            box-sizing: border-box;
+            border-bottom-color: $color-borde-tabla;
+            
+            & th {
+                font-weight: 500;
+                padding-left: 24px;
+            }
+        }
+
+        & ::ng-deep .mat-sort-header-arrow {
+            color: $color-paleta-5;
+        }
+
+        & ::ng-deep mat-row {
+            transition: scale 0.5s ease-out, box-shadow 0.5s ease-out;
+            
+            &:hover {
+                cursor: pointer;
+                scale: 1.1;
+                box-shadow: 0px 0px 7px 2px $color-paleta-4;
+            }
+        }
+
+        & ::ng-deep thead {
+
+            & th:nth-child(1) {
+                overflow: hidden;
+                border-top-left-radius: 10px;
+            }
+
+            & th:nth-last-child(1) {
+                overflow: hidden;
+                border-top-right-radius: 10px;
+            }
+        }
+    }
+
+    .estado {
+        &--completada {
+            color: $color-completado;
+        }
+        &--pendiente {
+            color: $color-paleta-1;
+        }
+        &--cancelada {
+            color: $color-cancelado;
+        }
+    }
+
+    .acciones  {
+        display: flex;
+        justify-content: space-evenly;
+        
+        button {
+            min-width: 40px;
+            min-height: 36px;
+            padding-inline: 5px;
+            // color: $color-paleta-1;
+            // background-color: $color-paleta-4;
+
+            &:hover {
+             background-color: rgba(0,0,0,0.1);   
+            }
+        }
+    }
+
+    & mat-table thead, & mat-paginator {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    } 
+
+}
+
+@include mat-table-columns((
+    id: (width: 15%),
+    estado: (width: 15%),
+    fecha: (width: 10%),
+    hora: (width: 10%),
+    centro: (width: 25%),
+    prueba: (width: 25%),
+));
+
+@media (max-width: 800px) {
+    .tabla {
+        width: 95%;
+    }
+}
+
+@media (max-width: 950px) {
+    .contenedor-filtros {
+        background-color: $color-blanco;
+        flex-direction: column;
+        box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%);
+    }
+
+    .filtro {
+        background-color: transparent;
+        box-shadow: none;
+        &--texto {
+            width: 100%;
+        }
+    }
+
+    
+}
+
+@media (max-width: 1150px) {
+    .filtros--especiales {
+        justify-content: space-evenly;
+    }
+}

@@ -1,0 +1,26 @@
+
+<mat-toolbar *ngIf="mostrarCabecera" (window:resize)="cambioAnchuraVentana()">
+  <div class="texto-menu">Menu</div>
+  <div class="usuario">
+    <div class="usuario__notificaciones">
+      <div [ngClass]="{'campana': true, 'campana--agitar': mostrarAvisoNuevasNotificaciones}" (click)="clickNotificaciones()">
+        <mat-icon class="campana__icono-campana">notifications</mat-icon>
+        <mat-icon class="campana__vibracion">notifications_active</mat-icon>
+      </div>
+      <div *ngIf="hayNuevasNotificaciones" class="punto"></div>
+    </div>
+    <div *ngIf="!modoSimplificado" class="usuario__nombre">{{nombreUsuario}}</div>
+    <button mat-icon-button class="usuario__icono" (click)="this.mostrarMenuUsuario = !this.mostrarMenuUsuario">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<div *ngIf="!this.avisoMostradoPreviamente && this.hayNuevasNotificaciones" [ngClass]="{'aviso-nuevas-notificaciones': true, 'aviso-nuevas-notificaciones--mostrar': mostrarAvisoNuevasNotificaciones}">
+  <div class="flecha"></div>
+  Hay nuevas notificaciones disponibles
+</div>
+<div *ngIf="mostrarMenuUsuario" class="menu-usuario">
+  <div class="flecha"></div>
+  <div *ngIf="modoSimplificado" class="menu-usuario__nombre-usuario"><u>{{nombreUsuario}}</u></div>
+  <div class="menu-usuario__opcion" (click)="cerrarSesion()"><mat-icon>power_settings_new</mat-icon>Cerrar sesión</div>
+</div>

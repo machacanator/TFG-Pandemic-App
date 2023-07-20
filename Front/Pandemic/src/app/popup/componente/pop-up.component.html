@@ -1,0 +1,25 @@
+<div class="popUp__contenedor">
+    <div class="popUp__megafono"></div>
+    <div [ngClass]="{'popUp__bocadillo': true, 'correcto': propiedades.tipo === tiposPopUp.CORRECTO, 'aviso': propiedades.tipo === tiposPopUp.AVISO, 'error': propiedades.tipo === tiposPopUp.ERROR}">
+        <mat-icon *ngIf="propiedades.tipo === tiposPopUp.CORRECTO">done</mat-icon>
+        <mat-icon *ngIf="propiedades.tipo === tiposPopUp.AVISO">warning</mat-icon>
+        <mat-icon *ngIf="propiedades.tipo === tiposPopUp.ERROR">close</mat-icon>
+    </div>
+    <div class="popUp__cuerpo">
+        <span *ngIf="propiedades.tipo === tiposPopUp.CORRECTO">
+            <span class="popUp__titulo">¡Completado!</span>
+            <p *ngIf="propiedades.mensaje !== ''" class="popUp__mensaje">{{propiedades.mensaje}}</p>
+        </span>
+        
+        <span *ngIf="propiedades.tipo === tiposPopUp.AVISO">
+            <span class="popUp__titulo">¡Aviso!</span>
+            <p *ngIf="propiedades.mensaje !== ''" class="popUp__mensaje">{{propiedades.mensaje}}</p>
+        </span>
+        
+        <span *ngIf="propiedades.tipo === tiposPopUp.ERROR">
+            <span class="popUp__titulo">¡Cancelado!</span>
+            <p *ngIf="propiedades.mensaje !== ''" class="popUp__mensaje">{{propiedades.mensaje}}</p>
+        </span>
+    </div>
+    
+</div>

@@ -1,0 +1,60 @@
+<div class="componente__contenedor">
+
+    <div class="titulo">Histórico de Citas</div>  
+
+    <div class="filtro">
+      <mat-form-field>
+        <mat-label>Filtro</mat-label>
+        <input matInput [formControl]="filtro" (keyup)="filtrarListado(filtro.value)">
+      </mat-form-field>
+    </div>
+    <div class="tabla">
+        <table mat-table [dataSource]="listadoParaMostrar" class="mat-elevation-z8" matSort (matSortChange)="cambioOrden($event)">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Identificador </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <ng-container *ngIf="!modoUsuario" matColumnDef="nombreCompleto">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombreCompletoPaciente}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+              <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="hora">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora </th>
+              <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="centro">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Centro </th>
+              <td mat-cell *matCellDef="let element"> {{element.centro}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="prueba">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Prueba Complementaria</th>
+                <td mat-cell *matCellDef="let element"> {{element.prueba}} </td>
+            </ng-container>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="columnasTabla.length">
+                No se han encontrado resultados
+              </td>
+            </tr>
+            <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnasTabla;"></tr>
+        </table>
+        <mat-paginator
+            [length]="totalRegistros"
+            [pageSize]="resultadosPorPagina"
+            [pageSizeOptions] = "opcionesCitasPorPagina"
+            [showFirstLastButtons] = true
+            (page)="cargarCitas($event.pageIndex, $event.pageSize)"
+        ></mat-paginator>
+    </div>
+</div>
+

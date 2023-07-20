@@ -1,0 +1,97 @@
+<div class="componente__contenedor" (window:resize)="cambioAnchuraVentana()">
+
+    <div class="titulo__contenedor titulo__contenedor--con-boton-volver">
+        <div class="boton" (click)="volverAAdministrarCentros()">
+            <mat-icon>arrow_back_ios</mat-icon>
+            Volver
+        </div>
+        <div class="titulo">{{modoEditarCentro ? 'Editar centro' : 'Añadir nuevo centro'}}</div>
+    </div>
+
+    <div class="titulo-seccion">Datos del centro</div>
+    <div class="datos-centro" [formGroup]="formulario">
+        <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile colspan="4">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="nombre">
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile colspan="4">
+                <mat-form-field>
+                    <mat-label>Dirección</mat-label>
+                    <input matInput formControlName="direccion">
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <div class="campo-compartido__contenedor">
+            <div class="campo-compartido">
+                <mat-form-field>
+                    <mat-label>Municipio</mat-label>
+                    <mat-select formControlName="municipio">
+                        <mat-option *ngFor="let municipio of listaMunicipios" [value]="municipio">{{municipio}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formulario.get('municipio').invalid">Seleccione una opción válida</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="campo-compartido">
+                <mat-form-field>
+                    <mat-label>Código postal</mat-label>
+                    <input matInput formControlName="codigoPostal" maxlength="5">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <div class="titulo-seccion">Administradores del centro</div>
+    <div class="seguridad-social__contenedor">
+        <div class="seguridad-social__campo-texto">
+            <mat-form-field>
+                <mat-label>Número seguridad social</mat-label>
+                <input matInput [formControl]="numeroSeguridadSocial" maxlength="9">
+            </mat-form-field>
+        </div>
+        <button mat-raised-button class="seguridad-social__boton" (click)="annadirNuevoAdministrador()">Añadir</button>
+    </div>
+    <div class="listado-administradores__contenedor">
+        <mat-list class="listado-administradores">
+            <mat-list-item *ngFor="let administrador of formulario.get('listadoAdministradores').value">
+                {{administrador.nombre}}
+                <button mat-raised-button class="boton-eliminar" (click)="quitarAdministradorDeListado(administrador)"><mat-icon>close</mat-icon></button>
+            </mat-list-item>
+        </mat-list>
+    </div>
+
+    <div class="titulo-seccion">Carta de presentación</div>
+    <div class="texto-area">
+        <mat-form-field appearance="outline">
+            <textarea matInput [formControl]="getControlador('cartaPresentacion')" rows="15" placeholder="Escriba aquí ..." cdkAutosizeMinRows="15" cdkTextareaAutosize></textarea>
+        </mat-form-field>
+    </div>
+
+    <div class="titulo-seccion">Historia</div>
+    <div class="texto-area">
+        <mat-form-field appearance="outline">
+            <textarea matInput [formControl]="getControlador('historia')" rows="15" placeholder="Escriba aquí ..." cdkAutosizeMinRows="15" cdkTextareaAutosize></textarea>
+        </mat-form-field>
+    </div>
+
+    <div class="titulo-seccion">Misión</div>
+    <div class="texto-area">
+        <mat-form-field appearance="outline">
+            <textarea matInput [formControl]="getControlador('mision')" rows="15" placeholder="Escriba aquí ..." cdkAutosizeMinRows="15" cdkTextareaAutosize></textarea>
+        </mat-form-field>
+    </div>
+
+    <div class="titulo-seccion">Imágenes</div>
+    <div #HTMLImagen *ngFor="let imagen of listaImagenesDeCentro; let indice = index" class="imagen__contenedor">
+        <button mat-raised-button class="imagen__boton-eliminar" [disabled]="deshabilitarAccionesConImagenes" (click)="eliminarImagen(indice, HTMLImagen)"><mat-icon>close</mat-icon></button>
+        <img [src]="imagen.url" class="imagen">
+    </div>
+    <input #botonOculto class="imagen__input-oculto" type="file" accept="image/png, image/jpeg" (change)="annadirImagen($event)">
+    <button *ngIf="listaImagenesDeCentro?.length < maximoNumeroDeImagenes" mat-raised-button class="imagen__boton-annadir" [disabled]="deshabilitarAccionesConImagenes" (click)="botonOculto.click()"><mat-icon>add</mat-icon></button>
+
+    <button mat-raised-button class="boton-guardar" (click)="guardarCentro()">Guardar</button>
+</div>

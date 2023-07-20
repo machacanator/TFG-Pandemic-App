@@ -1,0 +1,105 @@
+.titulo {
+    font-size: xx-large;
+}
+
+.componente__contenedor {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('../../../static/inicio-sesion/medical-background.jpg');
+}
+
+.tarjeta {
+    &__contenedor {
+        width: 50%;
+        min-width: 532px;
+        max-width: 750px;
+        height: 45%;
+        border-radius: 15px;
+        background-color: white;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0px 5px 20px #C47AFF;
+    }
+
+    &__imagen {
+        width: 78%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url('../../../static/inicio-sesion/login-image.jpg');
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__separador-imagen {
+        width: 117px;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url('../../../static/inicio-sesion/wave.png');
+        svg {
+            height: 100%;
+            width: 226px;
+            z-index: 999;
+            transform: rotate(90deg);
+        }
+    }
+
+    &__titulo {
+        margin-top: 10%;
+        font-size: 2em;
+    }
+
+    &__cuerpo {
+        width: 50%;
+        height: 100%;
+    }
+
+
+    &__formulario {
+        width: 80%;
+        margin-top: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+
+        form {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &__boton {
+        width: 50%;
+        color: white;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-image: radial-gradient(circle at left top, #C47AFF 18%, orange);
+    }
+
+    &__enlaces {
+        margin-top: 20px;
+    }
+    
+}
+
+.campo-contrasenna mat-icon {
+    &.contrasenna-valida {
+        color: rgba(0,0,0,.6);
+    }
+
+    &.contrasenna-erronea {
+        color: rgba(255,0,0,.6);
+    }
+}

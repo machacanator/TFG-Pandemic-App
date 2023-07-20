@@ -1,0 +1,67 @@
+<div class="componente__contenedor">
+
+    <div class="titulo__contenedor titulo__contenedor--con-boton-volver">
+        <div class="boton" (click)="volverAAdministrarPlantilla()">
+            <mat-icon>arrow_back_ios</mat-icon>
+            Volver
+        </div>
+        <div class="titulo">{{modoEditarEmpleado ? 'Editar empleado' : 'Añadir nuevo empleado'}}</div>
+    </div>
+
+    <div class="seguridad-social__contenedor">
+        <div class="seguridad-social__campo-texto">
+            <mat-form-field [formGroup]="formulario">
+                <mat-label>Número seguridad social</mat-label>
+                <input matInput formControlName="seguridadSocial">
+            </mat-form-field>
+        </div>
+        <button mat-raised-button class="seguridad-social__boton" (click)="buscarInformacionDeCandidato()">Buscar</button>
+    </div>
+
+    <div *ngIf="mostrarInformacionEmpleado" class="info-empleado__contenedor">
+        <div *ngIf="informacionEmpleadoSeleccionado" class="info-empleado">
+            <div class="info-empleado__dato">
+                {{informacionEmpleadoSeleccionado.apellidos + ", " + informacionEmpleadoSeleccionado.nombre}}
+            </div>
+            <div class="info-empleado__dato">{{informacionEmpleadoSeleccionado.documentoIdentidad}}</div>
+            <div class="info-empleado__dato">{{informacionEmpleadoSeleccionado.direccion}}</div>
+            <div class="info-empleado__dato">{{informacionEmpleadoSeleccionado.numeroSeguridadSocial}}</div>
+        </div>
+        <div *ngIf="!informacionEmpleadoSeleccionado" class="info-empleado--vacia">
+            No se han encontrado datos para el número: {{formulario.get('seguridadSocial').value}}
+        </div>
+    </div>
+
+    <div class="selectores-pruebas">
+        <div class="selector-pruebas__contenedor">
+            <div class="selector-pruebas__titulo">Pruebas disponibles</div>
+            <mat-list class="selector-pruebas">
+                <mat-list-item *ngFor="let prueba of listaPruebasDisponibles" (click)="annadirPruebaAEmpleado(prueba)">{{prueba.nombre}}</mat-list-item>
+            </mat-list>
+        </div>
+        
+        <div class="animacionFlechas">
+            <div class="flechaDeslizando">
+                <div class="flecha"></div>
+            </div>
+            <div class="flechaDeslizando delay1">
+                <div class="flecha"></div>
+            </div>
+            <div class="flechaDeslizando delay2">
+                <div class="flecha"></div>
+            </div>
+            <div class="flechaDeslizando delay3">
+                <div class="flecha"></div>
+            </div>
+        </div>
+        
+        <div class="selector-pruebas__contenedor">
+            <div class="selector-pruebas__titulo">Pruebas de empleado</div>
+            <mat-list class="selector-pruebas">
+                <mat-list-item *ngFor="let prueba of formulario.get('pruebasTratables').value"  (click)="deseleccionarPruebaDeEmpleado(prueba)">{{prueba.nombre}}</mat-list-item>
+            </mat-list>
+        </div>
+        
+    </div>
+    <button mat-raised-button class="boton-guardar" (click)="guardarCandidatoEmpleado()">Guardar</button>
+</div>

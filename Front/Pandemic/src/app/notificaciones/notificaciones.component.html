@@ -1,0 +1,32 @@
+<div class="componente__contenedor">
+
+    <div class="titulo">Notificaciones</div>
+
+    <div class="listado-notificaciones__fondo">
+        <div class="listado-notificaciones__contenedor">
+            <div *ngIf="notificacionesAMostrar.length === 0" class="listado-notificaciones__error">No hay notificaciones disponibles</div>
+            <div class="listado-notificaciones__seccion" *ngFor="let seccion of notificacionesAMostrar">
+                <div *ngIf="seccion[0].fecha === fechaHoy" class="listado-notificaciones__separador"><div class="titulo">Hoy</div><div class="linea"></div></div>
+                <div *ngIf="seccion[0].fecha === fechaAyer" class="listado-notificaciones__separador"><div class="titulo">Ayer</div><div class="linea"></div></div>
+                <div
+                    *ngIf="seccion[0].fecha != fechaHoy && seccion[0].fecha != fechaAyer"
+                    class="listado-notificaciones__separador"
+                >
+                    <div class="titulo">{{seccion[0].fecha.replaceAll('-', '/')}}</div>
+                    <div class="linea"></div>
+                </div>
+                <div class="listado-notificaciones__acciones" *ngFor="let notificacion of seccion">
+                    <div #notificacionHTML class="listado-notificaciones__notificacion" (click)="mostrarOcultarAccionesNotificacion(buscarHTMLNotificacion($event.target, true), notificacion)" >
+                        <div *ngIf="!notificacion.visualizada" class="marca-no-visualizada"></div>
+                        <div class="mensaje">
+                            {{notificacion.mensaje}}
+                            <button *ngIf="notificacion.boton.redireccion" mat-raised-button class="boton-redireccion" (click)="clickBotonNotificacion(notificacion.boton.redireccion)">{{notificacion.boton.texto}}</button>
+                        </div>
+                    </div>
+                    <div *ngIf="!notificacion.visualizada" matRipple class="accion marcar-leido" (click)="visualizarNotificacion(notificacionHTML, notificacion)"><mat-icon>visibility</mat-icon></div>
+                    <div matRipple class="accion borrar" (click)="borrarNotificacion(notificacionHTML, notificacion)"><mat-icon>delete</mat-icon></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

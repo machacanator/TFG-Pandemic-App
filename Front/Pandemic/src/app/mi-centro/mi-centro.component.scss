@@ -1,0 +1,36 @@
+@import '../../constantes/globales.scss';
+
+.carousel {
+    width: 80%;
+    height: 40vw;
+}
+
+.conjunto-desplegables {
+    width: 80%;
+    height: max-content;
+    margin-block: 70px;
+
+    & .desplegable {
+        width: 100%;
+        height: max-content;
+        margin-block: 20px;
+        // background-color: $color-paleta-5;
+
+        & .mat-expansion-panel-header{
+            background-color: $color-paleta-4;
+            font-size: 17px;
+            font-family: 'Poppins', sans-serif;
+        }
+        & .mat-expansion-panel-content, & ::ng-deep .mat-expansion-panel-body{
+            // background-color: $color-paleta-4;
+            padding: 16px 24px 16px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        & .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+            color: $color-blanco;
+
+        }
+    }
+}

@@ -1,0 +1,35 @@
+<div class="componente__contenedor componente__contenedor--tamaño-completo">
+    <div class="tarjeta__contenedor">
+        <div class="tarjeta__imagen">
+            <div class="tarjeta__separador-imagen"></div>
+        </div>
+        <div class="tarjeta__cuerpo">
+            <div class="tarjeta__titulo">Iniciar sesión</div>
+            <div class="tarjeta__formulario">
+                <form [formGroup] = "formularioInicioSesion">
+                    <mat-form-field>
+                        <mat-label>DNI</mat-label>
+                        <input matInput formControlName="documentoIdentidad" (keyup)="campoModificado($event)">
+                        <mat-error *ngIf="formularioInicioSesion.get('documentoIdentidad')?.errors?.required">Campo obligatorio</mat-error>
+                        <mat-error *ngIf="formularioInicioSesion.get('documentoIdentidad')?.errors?.pattern">Sin formato válido, ejemplo: 00000000A</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="campo-contrasenna">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput type="{{mostrarContrasenna ? 'text' : 'password'}}" formControlName="contrasenna" (keyup)="campoModificado($event)">
+                        <mat-icon *ngIf="formularioInicioSesion.get('contrasenna')?.value" matSuffix [ngClass]="[formularioInicioSesion.get('contrasenna')?.errors ? 'contrasenna-erronea' : 'contrasenna-valida']" (click)="mostrarContrasenna = !mostrarContrasenna">
+                            {{mostrarContrasenna ? 'visibility_off' : 'visibility'}}
+                        </mat-icon>
+                        <mat-error *ngIf="formularioInicioSesion.get('contrasenna')?.errors?.required">Campo obligatorio</mat-error>
+                        <mat-error *ngIf="formularioInicioSesion.get('contrasenna')?.errors?.minlength">Debe contener al menos 7 caracteres</mat-error>
+                        <mat-error *ngIf="formularioInicioSesion.get('contrasenna')?.errors?.sinMayusculas">Debe contener al menos 1 letra mayúscula</mat-error>
+                        <mat-error *ngIf="formularioInicioSesion.get('contrasenna')?.errors?.sinNumeros">Debe contener al menos 1 caracter numérico</mat-error>
+                        <mat-error *ngIf="formularioInicioSesion.get('contrasenna')?.errors?.sinCaracteresEspeciales">Debe contener al menos 1 carcater especial</mat-error>
+                    </mat-form-field>
+                </form>
+                <button mat-raised-button class="tarjeta__boton" (click)="enviarFormulario()">Enviar</button>
+                <a class="tarjeta__enlaces" href="http://localhost:4200/iniciarSesion">¿No puedes iniciar sesión?</a>
+                <a class="tarjeta__enlaces" href="http://localhost:4200/iniciarSesion">Crear una nueva cuenta</a>
+            </div>
+        </div>
+    </div>
+</div>
